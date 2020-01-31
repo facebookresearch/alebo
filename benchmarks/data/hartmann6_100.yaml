@@ -1,0 +1,94 @@
+algorithm:
+  noise_model_config: {}
+  noise_model:
+  constraints_model_config: {}
+  constraints_model:
+  model_config: {}
+  model: febo.models.gp.GP
+
+
+model:
+  beta: 8
+models.gp:
+  noise_var: 0.0000001
+  kernels:
+    - - GPy.kern.RBF
+      - variance: 1.0
+        lengthscale: 0.2
+        ARD: false
+  calculate_gradients: true  # Enable/Disable computation of gradient on each update.
+
+
+algorithm.subdomainbo:
+  min_queries_line: 5
+  max_queries_line: 10
+  #min_queries_tr: 1*d
+  #max_queries_tr: 1*d
+  min_queries_tr: 5
+  max_queries_tr: 10
+  acquisition: febo.algorithms.subdomainbo.acquisition.ucb
+  plot_every_step: false
+  plot: false
+  tr_radius: 0.1
+
+algorithm.rembo:
+  emb_d: 6
+  interleaved_runs: 4
+
+algorithm.spsa:
+  niter: 1200
+
+algorithm.nelder_mead:
+  contraction_factor: 0.3
+
+controller:
+  best_predicted_every: 1
+  T: 200  # Horizon
+  repetitions: 50
+
+
+environment.benchmark:
+  noise_obs_mode: none  # Can be set to "full", "evaluation" or "hidden".
+  noise_function: 0.0
+  aug_d: 94
+  random_x0: true
+
+
+experiment.multi:
+  label: febo.labels.algorithm_name
+  multi_controller: febo.controller.multi.RepetitionController
+  iterator:
+  - experiment.simple:algorithm: febo.algorithms.RandomLineBO
+  - experiment.simple:algorithm: febo.algorithms.CoordinateLineBO
+  - experiment.simple:algorithm: febo.algorithms.AscentLineBO
+  #- experiment.simple:algorithm: febo.algorithms.NelderMead
+  - experiment.simple:algorithm: febo.algorithms.Random
+  #- experiment.simple:algorithm: febo.algorithms.UCB
+  #- experiment.simple:algorithm: febo.algorithms.rembo.Rembo
+  #- experiment.simple:algorithm: febo.algorithms.rembo.InterleavedRembo
+  #- experiment.simple:algorithm: febo.algorithms.spsa.SPSA
+  - experiment.simple:algorithm: febo.algorithms.cmaes.CMAES
+  fixed_environment: false
+
+
+experiment.simple:
+  algorithm: febo.algorithms.Random
+  environment: febo.environment.benchmarks.subspace.AugmentedHartmann6
+  controller: febo.controller.simple.SimpleController
+
+
+solver.grid:
+  points_per_dimension: 300
+solver.scipy:
+  convergence_warnings: true
+  sync_restarts: true
+  num_processes: 1
+  num_restart: 50
+  lbfgs_maxfun: 1000
+  lbfgs_use_gradients: false
+
+
+main:
+  log_level_file: INFO
+  log_level_console: INFO
+  experiment: febo.experiment.MultiExperiment  # Experiment
