@@ -1,13 +1,13 @@
 # ALEBO
 This is the code associated with the paper "[Re-Examining Linear Embeddings for High-Dimensional Bayesian 
-Optimization](https://arxiv.org/abs/)"
+Optimization](https://arxiv.org/abs/2001.11659)"
 
 If you find this code useful please cite it as
 
     @article{Letham2019Re,
         author    = {Letham, Benjamin and Calandra, Roberto and Rai, Akshara and Bakshy, Eytan},        
         title     = {Re-Examining Linear Embeddings for High-dimensional Bayesian Optimization},
-        journal   = {arXiv preprint arXiv: XXX},
+        journal   = {arXiv preprint arXiv: 2001.11659},
         year      = {2020},
     }
 
