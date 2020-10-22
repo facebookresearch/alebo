@@ -15,7 +15,7 @@ matplotlib.rcParams['ytick.labelsize'] = 7
 matplotlib.rcParams['axes.titlesize'] = 9
 
 plot_method_names = [
-    'ALEBO',
+    'ALEBO (ours)',
     'REMBO',
     'HeSBO, $d_e$=$d$',
     'HeSBO, $d_e$=$2d$',
@@ -33,7 +33,7 @@ plot_method_names = [
 ]
 
 plot_colors={
-    'ALEBO': plt.cm.tab20(0),
+    'ALEBO (ours)': plt.cm.tab20(0),
     'REMBO': plt.cm.tab20(1),
     'HeSBO, $d_e$=$d$': plt.cm.tab20(2),
     'HeSBO, $d_e$=$2d$': plt.cm.tab20(3),

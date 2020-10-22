@@ -80,12 +80,12 @@ def make_fig_1():
     grid_x2h, grid_y2h, fs_rembo_h = eval_f_on_grid(rembo_hartmann6, bounds, bounds, {'A': A_h}, 6)
 
     # Make the figure
-    fig = plt.figure(figsize=(3.25, 2.75), facecolor='w', edgecolor='w')
+    fig = plt.figure(figsize=(5.5, 1.2), facecolor='w', edgecolor='w')
     plt.set_cmap('RdBu_r')
 
     ### Branin
 
-    ax = fig.add_subplot(221)
+    ax = fig.add_subplot(141)
     CS1 = ax.contourf(grid_x1, grid_y1, np.log(fs_branin), levels=np.linspace(-1, 6, 30))
     ax.grid(False)
     #ax.set_xlabel(r'$x_1$', fontsize=9)
@@ -98,7 +98,7 @@ def make_fig_1():
     #ax.set_yticks([-1, -0.5, 0, 0.5, 1])
     ax.set_title(r'Branin function, $d$=2')
 
-    ax = fig.add_subplot(222)
+    ax = fig.add_subplot(142)
     CS1 = ax.contourf(grid_x2, grid_y2, np.log(fs_rembo), levels=np.linspace(-1, 6, 30))
     ax.grid(False)
     #ax.set_xlabel(r'$x_1$', fontsize=9)
@@ -113,7 +113,7 @@ def make_fig_1():
 
     ### Hartmann6
 
-    ax = fig.add_subplot(223)
+    ax = fig.add_subplot(143)
     CS1f = ax.contourf(grid_x1h, grid_y1h, fs_hartmann6, levels=np.linspace(-1.2, 0., 20))
     ax.grid(False)
     #ax.set_xlabel(r'$x_1$', fontsize=9)
@@ -126,7 +126,7 @@ def make_fig_1():
     #ax.set_yticks([-1, -0.5, 0, 0.5, 1])
     ax.set_title(r'Hartmann6 function, $d$=6')
 
-    ax = fig.add_subplot(224)
+    ax = fig.add_subplot(144)
     CS1f = ax.contourf(grid_x2h, grid_y2h, fs_rembo_h, levels=np.linspace(-1.2, 0., 20))
     ax.grid(False)
     #ax.set_xlabel(r'$x_1$', fontsize=9)
@@ -139,8 +139,8 @@ def make_fig_1():
     #ax.set_yticks([-2, -1, 0, 1, 2,])
     ax.set_title('REMBO embedding,\n$D$=100, $d_e$=6')
 
-    fig.subplots_adjust(hspace=0.4, wspace=0.13, top=0.88, bottom=0.01, right=0.99, left=0.01)
-    plt.savefig('pdfs/rembo_illustrations.pdf', pad_inches=0)
+    fig.subplots_adjust(wspace=0.13, top=0.74, bottom=0.05, right=0.99, left=0.01)
+    plt.savefig('pdfs/rembo_illustrations_w.pdf', pad_inches=0)
 
 if __name__ == '__main__':
     make_fig_1()

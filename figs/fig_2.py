@@ -31,15 +31,16 @@ def make_fig_2():
             p_interior[(D, d)] /= nsamp
 
     # Make the figure
-    fig = plt.figure(figsize=(2.5, 1.5))
+    fig = plt.figure(figsize=(2., 1.55))
     ax = fig.add_subplot(111)
+    ax.grid(alpha=0.5)
 
     for i, D in enumerate(Ds):
         ax.plot(ds, [p_interior[(D, d)] for d in ds], 'x-', c=plt.cm.tab10(i))
     ax.legend([r'$D=20$', r'$D=100$', r'$D=1000$'], fontsize=7)
     ax.set_xlabel(r'Embedding dimension $d_e$', fontsize=9)
     ax.set_ylabel('Probability projection\nsatisfies box bounds', fontsize=9)
-    plt.subplots_adjust(right=0.99, bottom=0.23, left=0.22, top=0.94)
+    plt.subplots_adjust(right=0.99, bottom=0.22, left=0.3, top=0.94)
 
     plt.savefig('pdfs/rembo_p_interior.pdf', pad_inches=0)
 

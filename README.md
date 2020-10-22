@@ -4,11 +4,12 @@ Optimization](https://arxiv.org/abs/2001.11659)"
 
 If you find this code useful please cite it as
 
-    @article{Letham2019Re,
+    @inproceedings{Letham2020Re,
         author    = {Letham, Benjamin and Calandra, Roberto and Rai, Akshara and Bakshy, Eytan},        
-        title     = {Re-Examining Linear Embeddings for High-dimensional Bayesian Optimization},
-        journal   = {arXiv preprint arXiv: 2001.11659},
+        title     = {Re-Examining Linear Embeddings for High-Dimensional {B}ayesian Optimization},
+        booktitle   = {Advances in Neural Information Processing Systems 33},
         year      = {2020},
+        series = {NeurIPS},
     }
 
 ## Installation
@@ -22,7 +23,7 @@ Some of the baselines require additional packages that can not be pip-installed.
 Detailed instructions can be found inside each file of the `benchmarks/` folder.
 
 ## Using ALEBO for optimizing a function
-See `quickstart.ipynb` for a simple example of how to use ALEBO to optimize a function. ALEBO is built using the [Ax platform](https://ax.dev/); see instructions there on how to install via pip. You will need version 0.1.9.
+See `quickstart.ipynb` for a simple example of how to use ALEBO to optimize a function. ALEBO is built using the [Ax platform](https://ax.dev/); see instructions there on how to install via pip. You will need version 0.1.17 or later.
 
 ## Reproducing the experiments
 This repository contains the code required to run the benchmark experiments and generate the figures in the paper. The only exception are the DAISY figures, since the simulator is not yet open source.
@@ -48,6 +49,8 @@ The file `run_rrembo_benchmarks.R` provides a similar script in R for running th
 All benchmark results are stored in `benchmark/results/` (the json files produced by each run of each method are not shipped in this repo). Once all of the `run_*_benchmarks.*` files have been run, `compile_benchmark_results.py` is used to compile the results from all of the different methods into a single file for each experiment. These files are `benchmarks/results/*_aggregated_results.json` and are included in this repository as the benchmark results used in the paper.
 
 Executing `figs/fig_5.py` loads these aggregated results and generates the benchmark results figure in the paper.
+
+A separate script `benchmarks/run_nasbench.py` contains all of the code for running the NASBench experiment.
 
 ### The ALEBO model and generation code
 The actual implementation of the ALEBO method is at: https://github.com/facebook/Ax/blob/master/ax/models/torch/alebo.py

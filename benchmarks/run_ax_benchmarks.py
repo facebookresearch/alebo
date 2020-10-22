@@ -20,6 +20,11 @@ from benchmark_problems import (
     hartmann6_random_subspace_1000,
 )
 
+from ablation_models import (
+    ALEBOStrategy_projection_ablation,
+    ALEBOStrategy_kernel_ablation,
+)
+
 from ax.benchmark.benchmark import full_benchmark_run
 from ax.benchmark.benchmark_result import aggregate_problem_results
 from ax.modelbridge.registry import Models
@@ -129,6 +134,25 @@ def run_sensitivity_d_e_benchmarks(rep):
        json.dump(object_to_json(all_benchmarks), fout)
 
 
+def run_ablation_benchmarks(rep):
+    strategies = [
+        ALEBOStrategy_projection_ablation(D=100, d=4, init_size=10, name='ALEBO, projection ablation'),
+        ALEBOStrategy_kernel_ablation(D=100, d=4, init_size=10, name='ALEBO, kernel ablation'),
+        ALEBOStrategy(D=100, d=4, init_size=10, name='ALEBO, base'),
+    ]
+
+    all_benchmarks = full_benchmark_run(
+        num_replications=1,
+        num_trials=50,
+        batch_size=1,
+        methods=strategies,
+        problems=[branin_100],
+    )
+
+    with open(f'results/ablation_rep_{rep}.json', "w") as fout:
+       json.dump(object_to_json(all_benchmarks), fout)
+
+
 if __name__ == '__main__':
     # Run all of the benchmark replicates.
     # They are set up here to run as individual replicates becaus they can be
@@ -150,3 +174,7 @@ if __name__ == '__main__':
         # Sensitivity benchmarks: Each rep takes ~2 hrs
         run_sensitivity_D_benchmarks(rep=i)
         run_sensitivity_d_e_benchmarks(rep=i)
+
+    for i in range(100):
+        # Ablation benchmarks
+        run_ablation_benchmarks(rep=i)

@@ -146,7 +146,7 @@ def make_fig_3():
     with open('data/fig3_sim_output.pckl', 'rb') as fin:
         (test_Y, f1, var1, f2, var2, f3, var3) = pickle.load(fin)
     
-    fig = plt.figure(figsize=(3.25, 1.5))
+    fig = plt.figure(figsize=(2.63, 1.45))
 
     ax = fig.add_subplot(121)
     ax.errorbar(
@@ -162,6 +162,7 @@ def make_fig_3():
     ax.set_xlabel('True value', fontsize=9)
     ax.set_ylabel('Model prediction', fontsize=9)
     ax.set_title('ARD RBF', fontsize=9)
+    ax.grid(True, alpha=0.2)
 
     ax = fig.add_subplot(122)
     ax.errorbar(
@@ -176,8 +177,9 @@ def make_fig_3():
     ax.set_title('Mahalanobis', fontsize=9)
     ax.set_xticks([-3, -2, -1, 0, 1])
     ax.set_xlabel('True value', fontsize=9)
+    ax.grid(True, alpha=0.2)
 
-    plt.subplots_adjust(right=0.99, bottom=0.23, left=0.13, top=0.88, wspace=0.3)
+    plt.subplots_adjust(right=0.99, bottom=0.24, left=0.16, top=0.87, wspace=0.3)
     plt.savefig('pdfs/ard_mahalanobis.pdf', pad_inches=0)
 
 if __name__ == '__main__':

@@ -101,7 +101,7 @@ def make_fig_4():
         res = pickle.load(fin)
 
     nsamp = 1000
-    fig = plt.figure(figsize=(3.25, 1.7))
+    fig = plt.figure(figsize=(2.63, 1.45))
     for i, d in enumerate([2, 6]):
         ax = fig.add_subplot(1, 2, i + 1)
         x = [d_use for d_use in range(21) if d_use >= d]
@@ -116,8 +116,8 @@ def make_fig_4():
         ax.errorbar(x, y3, yerr=y3err, color=plt.cm.tab10(2), marker='')
         ax.set_title(r'$d={d}$'.format(d=d))
         if i == 0:
-            ax.set_ylabel('Probability embedding\ncontains optimizer', fontsize=9)
-            ax.legend(['REMBO', 'HeSBO', r'Hypersphere'], loc='lower right', fontsize=7)
+            ax.set_ylabel(r'$P_{\textrm{opt}}$', fontsize=9)
+            ax.legend(['REMBO', 'HeSBO', r'Hypersphere'], loc='lower right', fontsize=5)
         ax.set_xlabel(r'$d_e$', fontsize=9)
         ax.set_xlim([0, 21])
         ax.set_ylim([-0.02, 1.02])
@@ -126,7 +126,7 @@ def make_fig_4():
             ax.set_yticklabels([])
         ax.grid(True, alpha=0.2)
 
-    plt.subplots_adjust(right=0.99, bottom=0.21, left=0.17, top=0.89, wspace=0.1)
+    plt.subplots_adjust(right=0.99, bottom=0.23, left=0.17, top=0.87, wspace=0.1)
 
     plt.savefig('pdfs/lp_solns.pdf', pad_inches=0)
 

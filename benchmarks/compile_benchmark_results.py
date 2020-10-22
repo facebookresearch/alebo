@@ -173,7 +173,62 @@ def compile_sensitivity_benchmarks():
         json.dump(object_to_json(res), fout)
 
 
+def compile_ablation_benchmarks():
+    all_results = {}
+
+    for rep in range(100):
+        with open(f'results/ablation_rep_{rep}.json', 'r') as fin:
+            res_i = object_from_json(json.load(fin))
+
+        all_results = merge_benchmark_results(all_results, res_i)
+
+    problems = [branin_100]
+    res = {
+        p.name+'_ablation': aggregate_problem_results(runs=all_results[p.name], problem=p)
+        for p in problems
+    }
+    # Save
+    with open(f'results/ablation_aggregated_results.json', "w") as fout:
+        json.dump(object_to_json(res), fout)
+
+
+def compile_nasbench():
+    all_res = {}
+    # TuRBO and CMAES
+    for method in ['turbo', 'cmaes']:
+        all_res[method] = []
+        for rep in range(100):
+            with open(f'results/nasbench_{method}_rep_{rep}.json', 'r') as fin:
+                fs, feas = json.load(fin)
+            # Set infeasible points to nan
+            fs = np.array(fs)
+            fs[~np.array(feas)] = np.nan
+            all_res[method].append(fs)
+
+    # Ax methods
+    for method in ['Sobol', 'ALEBO', 'HeSBO', 'REMBO']:
+        all_res[method] = []
+        for rep in range(100):
+            with open(f'results/nasbench_{method}_rep_{rep}.json', 'r') as fin:
+                exp = object_from_json(json.load(fin))
+            # Pull out results and set infeasible points to nan
+            df = exp.fetch_data().df.sort_values(by='arm_name')
+            df_obj = df[df['metric_name'] == 'final_test_accuracy'].copy().reset_index(drop=True)
+            df_con = df[df['metric_name'] == 'final_training_time'].copy().reset_index(drop=True)
+            infeas = df_con['mean'] > 1800
+            df_obj.loc[infeas, 'mean'] = np.nan
+            all_res[method].append(df_obj['mean'].values)
+
+    for method, arr in all_res.items():
+        all_res[method] = np.fmax.accumulate(np.vstack(all_res[method]), axis=1)
+
+    with open(f'results/nasbench_aggregated_results.json', "w") as fout:
+        json.dump(object_to_json(all_res), fout)
+
+
 if __name__ == '__main__':
+    compile_nasbench()
+    gc.collect()
     compile_hartmann6(D=100)
     gc.collect()
     compile_hartmann6(D=1000)
@@ -183,3 +238,5 @@ if __name__ == '__main__':
     compile_sensitivity_benchmarks()
     gc.collect()
     compile_hartmann6(D=1000, random_subspace=True)
+    gc.collect()
+    compile_ablation_benchmarks()

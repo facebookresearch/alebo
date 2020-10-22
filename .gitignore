@@ -98,3 +98,4 @@ benchmarks/smac3*/
 benchmarks/tmp/
 benchmarks/results/*.json
 evaluations.hdf5
+benchmarks/nasbench_only108.tfrecord

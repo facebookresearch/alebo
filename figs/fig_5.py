@@ -7,7 +7,7 @@ import numpy as np
 
 from ax.storage.json_store.decoder import object_from_json
 
-from plot_config import *
+from plot_config_nr import *
 
 
 def make_fig_5():
@@ -37,11 +37,11 @@ def make_fig_5():
     }
 
     # Make the figure
-    fig = plt.figure(figsize=(6.75, 5.75))
+    fig = plt.figure(figsize=(5.5, 3.7))
 
     ####### Branin, D=100
-    ax1 = fig.add_subplot(321)
-    ax2 = fig.add_subplot(322)
+    ax1 = fig.add_subplot(231)
+    ax2 = fig.add_subplot(234)
 
     res_h = res['Branin, D=100']
 
@@ -63,7 +63,8 @@ def make_fig_5():
             parts[field].set_color(color)
 
     ax1.set_xlim([0, 51])
-    ax1.set_ylabel('Best value found', fontsize=9)
+    ax1.set_ylabel('Best value found', fontsize=7)
+    ax1.set_xlabel('Function evaluations', fontsize=7)
 
     ax1.axhline(y=0.397887, c='gray', ls='--')
     ax1.grid(alpha=0.2, zorder=-10)
@@ -72,12 +73,30 @@ def make_fig_5():
 
     ax2.set_xticks(range(12))
     ax2.set_xticklabels([])
-    ax2.set_ylabel('Final value', fontsize=9)
+    ax2.set_ylabel('Final value', fontsize=7)
     ax2.grid(alpha=0.2, zorder=-10)
+    ax2.set_xticklabels([plot_method_names[i] for i in range(12)], fontsize=6)
+    ax2.xaxis.set_tick_params(rotation=90)
+
+    
+    # Make the legend
+    custom_lines = []
+    names = []
+    for i in range(12):
+        names.append(plot_method_names[i])
+        custom_lines.append(
+            Line2D([0], [0], color=plot_colors[plot_method_names[i]], lw=2)
+        )
+
+    order = range(12)
+    names = [names[o] for o in order]
+    custom_lines = [custom_lines[o] for o in order]
+    ax1.legend(custom_lines, names, ncol=6, fontsize=5.5, bbox_to_anchor=(3.52, -2.26))
+    ax1.set_title('Branin, $d$=2, $D$=100', fontsize=8)
 
     ####### Hartmann6, D=1000
-    ax1 = fig.add_subplot(323)
-    ax2 = fig.add_subplot(324)
+    ax1 = fig.add_subplot(232)
+    ax2 = fig.add_subplot(235)
 
     res_h = res['Hartmann6, D=1000']
 
@@ -99,7 +118,8 @@ def make_fig_5():
             parts[field].set_color(color)
 
     ax1.set_xlim([0, 201])
-    ax1.set_ylabel('Best value found', fontsize=9)
+    #ax1.set_ylabel('Best value found', fontsize=9)
+    ax1.set_xlabel('Function evaluations', fontsize=7)
 
     ax1.axhline(y=-3.32237, c='gray', ls='--')
     ax1.grid(alpha=0.2, zorder=-10)
@@ -107,12 +127,15 @@ def make_fig_5():
 
     ax2.set_xticks(range(12))
     ax2.set_xticklabels([])
-    ax2.set_ylabel('Final value', fontsize=9)
+    #ax2.set_ylabel('Final value', fontsize=9)
     ax2.grid(alpha=0.2, zorder=-10)
+    ax2.set_xticklabels([plot_method_names[i] for i in range(12)], fontsize=6)
+    ax2.xaxis.set_tick_params(rotation=90)
+    ax1.set_title('Hartmann6, $d$=6, $D$=1000', fontsize=8)
 
     ####### Gramacy, D=100
-    ax1 = fig.add_subplot(325)
-    ax2 = fig.add_subplot(326)
+    ax1 = fig.add_subplot(233)
+    ax2 = fig.add_subplot(236)
 
     res_h = res['Gramacy, D=100']
 
@@ -134,40 +157,22 @@ def make_fig_5():
             parts[field].set_color(color)
     
     ax1.set_xlim([0, 51])
-    ax1.set_ylabel('Best value found', fontsize=9)
-    ax1.set_xlabel('Function evaluations', fontsize=9)
+    #ax1.set_ylabel('Best value found', fontsize=9)
+    ax1.set_xlabel('Function evaluations', fontsize=7)
     ax1.set_ylim([0.58, 1])
 
     ax1.axhline(y=0.5998, c='gray', ls='--')
     ax1.grid(alpha=0.2, zorder=-10)
 
     ax2.set_xticks(range(12))
-    ax2.set_xticklabels([plot_method_names[i] for i in range(12)], fontsize=7)
+    ax2.set_xticklabels([plot_method_names[i] for i in range(12)], fontsize=6)
     ax2.xaxis.set_tick_params(rotation=90)
-    ax2.set_ylabel('Final value', fontsize=9)
+    #ax2.set_ylabel('Final value', fontsize=9)
     ax2.grid(alpha=0.2, zorder=-10)
+    ax1.set_title('Gramacy, $d$=2, $D$=100', fontsize=8)
 
-    # Make the legend
-    custom_lines = []
-    names = []
-    for i in range(12):
-        names.append(plot_method_names[i])
-        custom_lines.append(
-            Line2D([0], [0], color=plot_colors[plot_method_names[i]], lw=2)
-        )
-
-    order = range(12)
-    names = [names[o] for o in order]
-    custom_lines = [custom_lines[o] for o in order]
-    ax1.legend(custom_lines, names, ncol=6, fontsize=7, bbox_to_anchor=(2.21, 4.57))
-
-    # Add problem titles
-    ax1.text(44, 2.27, 'Branin, $d$=2, $D$=100', fontsize=9)
-    ax1.text(41, 1.66, 'Hartmann6, $d$=6, $D$=1000', fontsize=9)
-    ax1.text(43, 1.05, 'Gramacy, $d$=2, $D$=100', fontsize=9)
-
-    plt.subplots_adjust(right=0.995, bottom=0.15, left=0.07, top=0.88, wspace=0.3, hspace=0.45)
-    plt.savefig('pdfs/benchmark_results.pdf', pad_inches=0)
+    plt.subplots_adjust(right=0.995, bottom=0.3, left=0.07, top=0.94, wspace=0.25, hspace=0.45)
+    plt.savefig('pdfs/benchmark_results_t.pdf', pad_inches=0)
 
 
 if __name__ == '__main__':
