@@ -1,7 +1,7 @@
 numpy
 matplotlib
 scipy
-ax-platform==0.1.17
+ax-platform>=0.1.17
 # json
 
 # For comparisons
